@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus } from "lucide-react";
+import { Search } from "lucide-react";
 import DiaryCard from "@/components/DiaryCard";
 
 export default function DiaryList() {
@@ -62,14 +60,8 @@ export default function DiaryList() {
   return (
     <div className="min-h-screen">
       <section className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground">我的日記</h1>
-          <Link href="/new">
-            <Button className="rounded-full gap-2" data-testid="button-new-diary">
-              <Plus className="w-4 h-4" />
-              寫新日記
-            </Button>
-          </Link>
         </div>
 
         <div className="relative mb-8">

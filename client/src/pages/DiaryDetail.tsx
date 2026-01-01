@@ -1,22 +1,10 @@
 import { useRoute, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Calendar, Heart, ArrowLeft, Edit, Trash2 } from "lucide-react";
-import { useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { Calendar, ArrowLeft } from "lucide-react";
 
 export default function DiaryDetail() {
   const [, params] = useRoute("/diary/:id");
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const diary = {
     id: params?.id,
@@ -34,10 +22,6 @@ export default function DiaryDetail() {
     mood: "happy",
   };
 
-  const handleDelete = () => {
-    console.log("Delete diary:", diary.id);
-    setShowDeleteDialog(false);
-  };
 
   return (
     <div className="min-h-screen">
@@ -65,46 +49,8 @@ export default function DiaryDetail() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 pt-6 border-t">
-            <Link href={`/edit/${diary.id}`}>
-              <Button variant="outline" className="gap-2 rounded-full" data-testid="button-edit">
-                <Edit className="w-4 h-4" />
-                編輯
-              </Button>
-            </Link>
-            <Button
-              variant="outline"
-              className="gap-2 rounded-full text-destructive hover:text-destructive"
-              onClick={() => setShowDeleteDialog(true)}
-              data-testid="button-delete"
-            >
-              <Trash2 className="w-4 h-4" />
-              刪除
-            </Button>
-          </div>
         </Card>
       </section>
-
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>確定要刪除這篇日記嗎？</AlertDialogTitle>
-            <AlertDialogDescription>
-              此操作無法復原，這篇日記將會永久刪除。
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel data-testid="button-cancel-delete">取消</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              data-testid="button-confirm-delete"
-            >
-              刪除
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }
