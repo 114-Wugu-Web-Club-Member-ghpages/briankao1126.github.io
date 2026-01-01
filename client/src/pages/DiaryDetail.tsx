@@ -2,25 +2,27 @@ import { useRoute, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, ArrowLeft } from "lucide-react";
+import { diaries } from "@/data/diaries";
+import MarkdownContent from "@/components/MarkdownContent";
 
 export default function DiaryDetail() {
-  const [, params] = useRoute("/diary/:id");
+  const [, params] = useRoute("/diary/:slug");
+  const diary = diaries.find((d) => d.slug === params?.slug);
 
-  const diary = {
-    id: params?.id,
-    title: "秋天的第一杯奶茶",
-    date: "2025-11-07",
-    content: `今天天氣好冷，終於喝到了期待已久的秋天第一杯奶茶！
-
-溫暖的奶茶握在手裡，感覺整個人都暖和起來了。我選了經典的珍珠奶茶，甜度適中，珍珠Q彈有嚼勁，真的太好喝了。
-
-坐在窗邊，看著外面的落葉慢慢飄落，金黃色的葉子在陽光下閃閃發光。這個季節真的太美好了，涼涼的天氣配上溫暖的飲品，還有美麗的秋景，讓人感到無比幸福。
-
-和朋友聊天的時候，我們討論了很多關於秋天的回憶。每個人都有自己喜歡秋天的理由，而我最喜歡的就是這種舒適的溫度和浪漫的氛圍。
-
-希望能好好珍惜這個秋天的每一天，記錄下更多美好的瞬間。`,
-    mood: "happy",
-  };
+  if (!diary) {
+    return (
+      <div className="min-h-screen">
+        <section className="max-w-4xl mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-4">日記未找到</h1>
+            <Link href="/diaries">
+              <Button>返回日記列表</Button>
+            </Link>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
 
   return (
@@ -43,10 +45,8 @@ export default function DiaryDetail() {
             {diary.title}
           </h1>
 
-          <div className="prose prose-lg max-w-none mb-8">
-            <p className="text-foreground leading-relaxed whitespace-pre-wrap" data-testid="text-diary-content">
-              {diary.content}
-            </p>
+          <div className="mb-8" data-testid="text-diary-content">
+            <MarkdownContent content={diary.content} />
           </div>
 
         </Card>
